@@ -102,11 +102,11 @@ command:
 
 ### OS X/Linux/Unix:
 
-    java -classpath path/to/rhino/js.jar:path/to/closure/compiler.jar org.mozilla.javascript.tools.shell.Main r.js main.js
+    java -classpath path/to/rhino/js.jar:path/to/closure/compiler.jar org.mozilla.javascript.tools.shell.Main -opt -1 r.js main.js
 
 ### Windows
 
-    java -classpath path/to/rhino/js.jar;path/to/closure/compiler.jar org.mozilla.javascript.tools.shell.Main r.js main.js
+    java -classpath path/to/rhino/js.jar;path/to/closure/compiler.jar org.mozilla.javascript.tools.shell.Main -opt -1 r.js main.js
 
 If you want to run it in the debugger, replace
 org.mozilla.javascript.tools.shell.Main with
@@ -140,11 +140,11 @@ If running in **Java**, be sure to grab the Rhino and Closure Compiler jar files
 
 ### OS X/Linux/Unix:
 
-    java -classpath path/to/rhino/js.jar:path/to/closure/compiler.jar org.mozilla.javascript.tools.shell.Main r.js -o path/to/buildconfig.js
+    java -classpath path/to/rhino/js.jar:path/to/closure/compiler.jar org.mozilla.javascript.tools.shell.Main -opt -1 r.js -o path/to/buildconfig.js
 
 ### Windows
 
-    java -classpath path/to/rhino/js.jar;path/to/closure/compiler.jar org.mozilla.javascript.tools.shell.Main r.js -o path/to/buildconfig.js
+    java -classpath path/to/rhino/js.jar;path/to/closure/compiler.jar org.mozilla.javascript.tools.shell.Main -opt -1 r.js -o path/to/buildconfig.js
 
 
 ## What makes it special
@@ -225,10 +225,10 @@ and Java/Rhino:
     * node dist.js
     * cd tests
     * node ../r.js all.js
-    * java -classpath ../lib/rhino/js.jar:../lib/closure/compiler.jar org.mozilla.javascript.tools.shell.Main ../r.js all.js
+    * java -classpath ../lib/rhino/js.jar:../lib/closure/compiler.jar org.mozilla.javascript.tools.shell.Main -opt -1 ../r.js all.js
     * cd ../build/tests
     * node ../../r.js all.js
-    * java -classpath ../../lib/rhino/js.jar:../../lib/closure/compiler.jar org.mozilla.javascript.tools.shell.Main ../../r.js all.js
+    * java -classpath ../../lib/rhino/js.jar:../../lib/closure/compiler.jar org.mozilla.javascript.tools.shell.Main -opt -1 ../../r.js all.js
 
 For running tests, put xpcshell in env/xpcshell/ as a directory, that contains
 all the files needed for it to run, including the xpcshell binary. Downloading
