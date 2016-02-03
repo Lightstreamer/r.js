@@ -203,6 +203,23 @@
         CompilationLevel: 'SIMPLE_OPTIMIZATIONS',
         loggingLevel: 'WARNING',
         externExportsPath: './extern.js'
+        //When using ADVANCED_OPTIMIZATION the Closure compiler may add some 
+        //global functions to your file. You may be tempted to use the default
+        //wrap parameter to work-around this issue but unfortunately the 
+        //compiler will likely strip the wrapping. You may add the wrapping
+        //at a later moment but that will probably ruin the source map if one 
+        //was generated. Setting this parameter to true will wrap the code
+        //avoiding globals and will also adjust the source map file.
+        avoidGlobals: false,
+        //Specify a list of files to be used as externs during compilation.
+        //See the documentation for Closure compiler for more information.
+        externs: [
+          "path/to/externs.js"
+        ],
+        //If ignoreDefaultExterns the closure compiler default externs will 
+        //not be  used. See the documentation for Closure compiler for more
+        //information.
+        ignoreDefaultExterns: false
     },
 
     //Allow CSS optimizations. Allowed values:
