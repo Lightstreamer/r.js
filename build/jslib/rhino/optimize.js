@@ -131,14 +131,14 @@ define(['logger', 'env!env/file'], function (logger, file) {
                 //for certain symbols, do so here.
                 var defaultExterns = CommandLineRunner.getDefaultExterns();
                 externList.addAll(defaultExterns);
-                logger.trace("Added defaultExterns: " + defaultExterns);
+                //logger.trace("Added defaultExterns: " + defaultExterns);
             }
             
             if (config.externs) {
               logger.trace("Adding externs:");
               for (var i = 0; i < config.externs.length; i++) {
                 externList.add(jscomp.SourceFile.fromFile(config.externs[i]));
-                logger.trace("Added extern: " + config.externs[i]);
+                //logger.trace("Added extern: " + config.externs[i]);
               }
             }
             
