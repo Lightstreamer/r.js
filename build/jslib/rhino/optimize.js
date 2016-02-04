@@ -135,7 +135,7 @@ define(['logger', 'env!env/file'], function (logger, file) {
             }
             
             if (config.externs) {
-              logger.trace("Adding externs:");
+              //logger.trace("Adding externs:");
               for (var i = 0; i < config.externs.length; i++) {
                 externList.add(jscomp.SourceFile.fromFile(config.externs[i]));
                 //logger.trace("Added extern: " + config.externs[i]);
