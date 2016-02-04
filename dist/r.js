@@ -1,5 +1,5 @@
 /**
- * @license r.js 2.1.22+ Thu, 17 Dec 2015 05:09:46 GMT Copyright (c) 2010-2015, The Dojo Foundation All Rights Reserved.
+ * @license r.js 2.1.22+ Thu, 04 Feb 2016 12:38:59 GMT Copyright (c) 2010-2015, The Dojo Foundation All Rights Reserved.
  * Available via the MIT or new BSD license.
  * see: http://github.com/jrburke/requirejs for details
  */
@@ -20,7 +20,7 @@ var requirejs, require, define, xpcUtil;
 (function (console, args, readFileFunc) {
     var fileName, env, fs, vm, path, exec, rhinoContext, dir, nodeRequire,
         nodeDefine, exists, reqMain, loadedOptimizedLib, existsForNode, Cc, Ci,
-        version = '2.1.22+ Thu, 17 Dec 2015 05:09:46 GMT',
+        version = '2.1.22+ Thu, 04 Feb 2016 12:38:59 GMT',
         jsSuffixRegExp = /\.js$/,
         commandOption = '',
         useLibLoaded = {},
@@ -28687,9 +28687,22 @@ define('rhino/optimize', ['logger', 'env!env/file'], function (logger, file) {
                 options.setSourceMapOutputPath(fileName + ".map");
             }
 
-            //If we need to pass an externs file to Closure so that it does not create aliases
-            //for certain symbols, do so here.
-            externList.addAll(CommandLineRunner.getDefaultExterns());
+            if (!config.ignoreDefaultExterns) {
+                //If we need to pass an externs file to Closure so that it does not create aliases
+                //for certain symbols, do so here.
+                var defaultExterns = CommandLineRunner.getDefaultExterns();
+                externList.addAll(defaultExterns);
+                //logger.trace("Added defaultExterns: " + defaultExterns);
+            }
+            
+            if (config.externs) {
+              logger.trace("Adding externs:");
+              for (var i = 0; i < config.externs.length; i++) {
+                externList.add(jscomp.SourceFile.fromFile(config.externs[i]));
+                //logger.trace("Added extern: " + config.externs[i]);
+              }
+            }
+            
             if (config.externExportsPath) {
                 externExportsPath = config.externExportsPath;
                 externList.add(jscomp.SourceFile.fromFile(externExportsPath));
@@ -28706,8 +28719,17 @@ define('rhino/optimize', ['logger', 'env!env/file'], function (logger, file) {
             result = compiler.compile(externList, sourceListArray, options);
             if (result.success) {
                 optimized = String(compiler.toSource());
+                
+                var wrapperStart = "(function(){";
+                if (config.avoidGlobals) {
+                    optimized = wrapperStart + optimized + "}());";
+                }
 
                 if (config.generateSourceMaps && result.sourceMap && outFileName) {
+                    if (config.avoidGlobals) {
+                        result.sourceMap.setWrapperPrefix(wrapperStart);
+                    }
+                    
                     outBaseName = (new java.io.File(outFileName)).getName();
 
                     srcOutFileName = outFileName + ".src.js";
